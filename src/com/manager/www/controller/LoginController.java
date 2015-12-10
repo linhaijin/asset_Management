@@ -74,14 +74,13 @@ public class LoginController {
     
     @RequestMapping("/loginSuccess")
     public ModelAndView loginSuccess(HttpServletRequest request, HttpServletResponse response){
-    	System.out.println("123");
         return new ModelAndView("index");
     }
     
     //首页
     @RequestMapping("/homepage")
     public ModelAndView homepage(HttpServletRequest request, HttpServletResponse response){
-    	return new ModelAndView("homepage/homepage");
+    	return new ModelAndView("home");
     }
     
 }
