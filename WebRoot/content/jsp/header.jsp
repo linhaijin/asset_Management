@@ -19,15 +19,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/html5shiv.js"></script>
 <script src="js/respond.min.js"></script>
 <![endif]-->
-
+<script src="content/assets/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript">
+
+	$(function(){
+		var title = $(".row .page-header").html();
+		var obj_lis = document.getElementById("title_name").getElementsByTagName("li");
+		for(var i=0;i<obj_lis.length;i++){
+			var str = obj_lis[i];
+			    console.log(str);
+			if(str.indexOf(title) > 0 ){
+			    console.log("Cts中包含Text字符串");
+			}
+		}
+	});
 	function toprofile(){
 		window.location.href = "profileController/toprofile";
 	}
 	
-	function changeActive(){
-		
-	}
 </script>
 </head>
 
@@ -62,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input type="text" class="form-control" placeholder="Search">
 			</div>
 		</form>
-		<ul class="nav menu">
+		<ul id="title_name"class="nav menu">
 			<li class="active"><a href="loginController/loginSuccess"><span class="glyphicon glyphicon-dashboard"></span> 主页</a></li>
 			<li class="parent ">
 				<a href="#">
