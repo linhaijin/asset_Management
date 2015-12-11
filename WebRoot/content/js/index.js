@@ -1,5 +1,7 @@
 
 $(function(){
-	var url = "loginController/homepage";
-	$("#contentPage").load(url);
 });
+
+function toprofile(){
+	window.location.href = "profileController/toprofile";
+}
