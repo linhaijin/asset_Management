@@ -24,3 +24,7 @@ $(function(){
 	});*/
 });
 
+
+function editEmployee(){
+	alert("qwe");
+}
