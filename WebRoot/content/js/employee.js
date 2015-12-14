@@ -1,8 +1,8 @@
 
 $(function(){
-	/*$.ajax({
+	$.ajax({
 		type: "post",
-        url: "",
+        url: "employeeController/loadInfo",
         async:false,
         data: {
         	"userName":userName,
@@ -21,10 +21,14 @@ $(function(){
         error: function(data){
         	layer.msg(data['msg'], {icon: 2, time: 1000});
         }
-	});*/
+	});
 });
 
 
 function editEmployee(){
 	alert("qwe");
+}
+
+function addEmployee(){
+	alert("asda是");
 }

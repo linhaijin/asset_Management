@@ -23,7 +23,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">员工信息表</div>
+					<div class="panel-heading">员工信息表<button type="button" onclick="addEmployee()">添加</button></div>
 					<div class="panel-body">
 						<table data-toggle="table" data-url="content/index/tables/data1.json"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>

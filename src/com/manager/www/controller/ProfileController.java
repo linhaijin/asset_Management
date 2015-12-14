@@ -24,7 +24,7 @@ public class ProfileController {
     IUserService userService;
     
     @RequestMapping("/tologout")
-    public ModelAndView login(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response){
     	request.getSession().removeAttribute("userId");  //退出登录之前移除session
     	request.getSession().removeAttribute("user_info");  //退出登录之前移除session
     	ModelAndView mav = new ModelAndView("redirect:/login.jsp");
