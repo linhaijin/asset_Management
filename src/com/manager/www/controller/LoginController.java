@@ -71,17 +71,10 @@ public class LoginController {
         }
     }
     
-    
     @RequestMapping("/loginSuccess")
     public ModelAndView loginSuccess(HttpServletRequest request, HttpServletResponse response){
     	
         return new ModelAndView("index");
-    }
-    
-    //首页
-    @RequestMapping("/homepage")
-    public ModelAndView homepage(HttpServletRequest request, HttpServletResponse response){
-    	return new ModelAndView("home");
     }
     
 }

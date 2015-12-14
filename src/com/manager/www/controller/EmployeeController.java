@@ -25,8 +25,8 @@ import com.manager.www.vo.User;
  */
 
 @Controller
-@RequestMapping(value="staffController")
-public class StaffController {
+@RequestMapping(value="employeeController")
+public class EmployeeController {
     @Resource
     IUserService userService;
     
@@ -72,9 +72,9 @@ public class StaffController {
     }
     
     
-    @RequestMapping("/tostaff")
+    @RequestMapping("/toemployee")
     public ModelAndView loginSuccess(HttpServletRequest request, HttpServletResponse response){
-        return new ModelAndView("staff");
+        return new ModelAndView("employee");
     }
     
     //首页

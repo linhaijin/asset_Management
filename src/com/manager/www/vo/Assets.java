@@ -13,33 +13,33 @@ import javax.persistence.Table;
  * Users entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "employee", catalog = "assetmanagement")
-public class Employee implements java.io.Serializable {
+@Table(name = "asset", catalog = "assetmanagement")
+public class Assets implements java.io.Serializable {
 
 	// Fields
 
 	private Integer id;          //ID
-	private String number;       //员工编号
-	private String name;         //姓名
-	private Integer status = 1;  //状态,0离职1在职
-	private Integer gender;      //性别,男1女0
-	private String job;          //职务
-	private Date entryTime;      //入职时间
+	private String number;       //资产编号
+	private String name;         //资产名称
+	private Integer status = 0;  //状态,0空闲1在用
+	private String uses;         //用途
+	private Date entryTime;      //购买时间
+	private String category;     //类别
 	private String remarks;      //备注
 
 	// Constructors
 
 	/** default constructor */
-	public Employee() {
+	public Assets() {
 	}
 
 	/** full constructor */
-	public Employee(String name, String number, String job, String remarks, Integer status, Integer gender, Date entryTime) {
+	public Assets(String name, String number, String uses, String remarks, Integer status, String category, Date entryTime) {
 		this.name = name;
-		this.job = job;
+		this.uses = uses;
 		this.number = number;
 		this.status = status;
-		this.gender = gender;
+		this.category = category;
 		this.entryTime = entryTime;
 		this.remarks = remarks;
 	}
@@ -83,13 +83,13 @@ public class Employee implements java.io.Serializable {
 		this.remarks = remarks;
 	}
 
-	@Column(name = "job", length = 50)
-	public String getJob() {
-		return this.job;
+	@Column(name = "uses", length = 50)
+	public String getUses() {
+		return this.uses;
 	}
 
-	public void setJob(String job) {
-		this.job = job;
+	public void setUses(String uses) {
+		this.uses = uses;
 	}
 
 	@Column(name = "status")
@@ -101,13 +101,13 @@ public class Employee implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@Column(name = "gender")
-	public Integer getGender() {
-		return this.gender;
+	@Column(name = "category", length = 50)
+	public String getCategory() {
+		return this.category;
 	}
 
-	public void setGender(Integer gender) {
-		this.gender = gender;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	@Column(name = "entryTime")

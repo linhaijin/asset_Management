@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</li>
 				</ul>
 			</li>
-			<li><a href="staffController/tostaff"><span class="glyphicon glyphicon-th"></span> 人员信息</a></li>
+			<li><a href="employeeController/toemployee"><span class="glyphicon glyphicon-th"></span> 人员信息</a></li>
 			<li><a href="charts.html"><span class="glyphicon glyphicon-stats"></span> 资产的领用</a></li>
 			<li><a href="tables.html"><span class="glyphicon glyphicon-list-alt"></span> 资产的归还</a></li>
 			<li class="parent ">
