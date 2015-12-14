@@ -56,7 +56,6 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
         if(request_Url.matches(reg)){
             return true;
         }
-        String ResultType ="";
         if (null == userId || "".equals(userId)) {// 如果用户为空(同等于session过期操作)
             String url = request_Url.substring(request_Url.lastIndexOf("/"), request_Url.length()).replace(".do","");
             // 跳到首页

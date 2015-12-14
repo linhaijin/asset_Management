@@ -25,12 +25,12 @@ import com.manager.www.vo.User;
  */
 
 @Controller
-@RequestMapping(value="loginController")
-public class LoginController {
+@RequestMapping(value="staffController")
+public class StaffController {
     @Resource
     IUserService userService;
     
-    @RequestMapping("/tologin")
+    @RequestMapping("/tologout")
     public void login(HttpServletRequest request, HttpServletResponse response,PrintWriter printWriter,User user){
         Map<String,Object> result_map = new HashMap<String,Object>();
         String username = request.getParameter("userName");
@@ -72,16 +72,15 @@ public class LoginController {
     }
     
     
-    @RequestMapping("/loginSuccess")
+    @RequestMapping("/tostaff")
     public ModelAndView loginSuccess(HttpServletRequest request, HttpServletResponse response){
-    	
-        return new ModelAndView("index");
+        return new ModelAndView("staff");
     }
     
     //首页
-    @RequestMapping("/homepage")
+    @RequestMapping("/tosetting")
     public ModelAndView homepage(HttpServletRequest request, HttpServletResponse response){
-    	return new ModelAndView("home");
+    	return new ModelAndView("setting");
     }
     
 }

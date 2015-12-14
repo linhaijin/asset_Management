@@ -23,15 +23,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 
 	$(function(){
-		var title = $(".row .page-header").html();
-		var obj_lis = document.getElementById("title_name").getElementsByTagName("li");
+		 var title = $(".row .page-header").html() + "";
+		var obj_lis = $("#title_name li");
 		for(var i=0;i<obj_lis.length;i++){
 			var str = obj_lis[i];
-			    console.log(str);
-			if(str.indexOf(title) > 0 ){
-			    console.log("Cts中包含Text字符串");
+			var str2 = str.innerText;
+			    str2 += "";
+			if (str2.indexOf(title) > -1){
+				obj_lis[i].className = "active";
 			}
 		}
+		/* /* $("#title_name li").click(function() {
+
+        $(this).siblings("li").removeClass("active");  // 删除其他兄弟元素的样式
+
+        $(this).addClass("active");                            // 添加当前元素的样式 
+
+    }); */
 	});
 	function toprofile(){
 		window.location.href = "profileController/toprofile";
@@ -55,9 +63,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li class="dropdown pull-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> ${ sessionScope.user_info.userName} <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="javascript:void(0)" onclick="toprofile()"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
-							<li><a href="javascript:void(0)" onclick="tosetting()"><span class="glyphicon glyphicon-cog"></span> 设置</a></li>
-							<li><a href="javascript:void(0)" onclick="tologout()"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li>
+							<li><a href="profileController/toprofile"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
+							<li><a href="profileController/tosetting"><span class="glyphicon glyphicon-cog"></span> 设置</a></li>
+							<li><a href="profileController/tologout"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -72,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</form>
 		<ul id="title_name"class="nav menu">
-			<li class="active"><a href="loginController/loginSuccess"><span class="glyphicon glyphicon-dashboard"></span> 主页</a></li>
+			<li ><a href="loginController/loginSuccess"><span class="glyphicon glyphicon-dashboard"></span> 主页</a></li>
 			<li class="parent ">
 				<a href="#">
 					<span class="glyphicon glyphicon-list"></span> 固定资产信息 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
@@ -90,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</li>
 				</ul>
 			</li>
-			<li><a href="widgets.html"><span class="glyphicon glyphicon-th"></span> 人员信息</a></li>
+			<li><a href="staffController/tostaff"><span class="glyphicon glyphicon-th"></span> 人员信息</a></li>
 			<li><a href="charts.html"><span class="glyphicon glyphicon-stats"></span> 资产的领用</a></li>
 			<li><a href="tables.html"><span class="glyphicon glyphicon-list-alt"></span> 资产的归还</a></li>
 			<li class="parent ">
