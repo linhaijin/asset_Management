@@ -14,6 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="content/index/css/bootstrap.min.css" rel="stylesheet">
 <link href="content/index/css/datepicker3.css" rel="stylesheet">
 <link href="content/index/css/styles.css" rel="stylesheet">
+<link rel="stylesheet" href="content/plugin/layer/skin/layer.css"/>
 
 <!--[if lt IE 9]>
 <script src="js/html5shiv.js"></script>

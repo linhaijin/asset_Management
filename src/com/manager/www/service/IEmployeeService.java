@@ -2,8 +2,10 @@ package com.manager.www.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.manager.www.commons.dao.IBaseDAO;
+import com.manager.www.commons.util.Pager;
 import com.manager.www.vo.Employee;
 
 /**
@@ -13,13 +15,19 @@ import com.manager.www.vo.Employee;
  */
 public interface IEmployeeService extends IBaseDAO<Employee, Serializable>{
 
-	//保存
-	public boolean saveEmployee (Employee entity);
-	//修改
-	public boolean updateEmployee (Employee id);
-	//删除
-	public boolean deleteEmployee (Employee entity);
-	//查询
-	public List<Employee> findEmployee ();
+	public boolean saveupdateEmployee(Employee entity) ;
+    //delete
+    public boolean deleteEmployeeById(Serializable id) ;
+    //update
+    public boolean updateEmployee(Employee entity) ;
+    //find
+    public Employee findEmployeeById(Serializable id) ;
+    public Pager findByHQLQuery(Employee entity, Pager pager) ;
+    public Pager findBySQLQuery(Employee entity, Pager pager) ;
+    public Pager findBySQLQuery(Map<String, Object> map, Pager pager) ;
+
+    //根据客户ID查找对应的记录
+    public List findEmployeeList(String kehuID);
+    public List<Employee> findAllEmployeeList();
 	
 }

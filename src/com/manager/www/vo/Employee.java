@@ -21,8 +21,8 @@ public class Employee implements java.io.Serializable {
 	private Integer id;          //ID
 	private String number;       //员工编号
 	private String name;         //姓名
-	private Integer status = 1;  //状态,0离职1在职
-	private Integer gender;      //性别,男1女0
+	private String status;       //状态
+	private String gender;       //性别
 	private String job;          //职务
 	private Date entryTime;      //入职时间
 	private String remarks;      //备注
@@ -34,7 +34,7 @@ public class Employee implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Employee(String name, String number, String job, String remarks, Integer status, Integer gender, Date entryTime) {
+	public Employee(String name, String number, String job, String remarks, String status, String gender, Date entryTime) {
 		this.name = name;
 		this.job = job;
 		this.number = number;
@@ -93,20 +93,20 @@ public class Employee implements java.io.Serializable {
 	}
 
 	@Column(name = "status")
-	public Integer getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
 	@Column(name = "gender")
-	public Integer getGender() {
+	public String getGender() {
 		return this.gender;
 	}
 
-	public void setGender(Integer gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
