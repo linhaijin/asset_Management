@@ -1,6 +1,13 @@
 package com.manager.www.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +16,17 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.manager.www.commons.util.JsonUtil;
-import com.manager.www.commons.util.WebConstants;
 import com.manager.www.service.IEmployeeService;
-import com.manager.www.service.IUserService;
 import com.manager.www.vo.Employee;
-import com.manager.www.vo.User;
 
 /**
  * @author djx
@@ -32,57 +40,131 @@ public class EmployeeController {
     @Resource
     IEmployeeService employeeService;
     
-    @RequestMapping("/loadInfo")
-    public void loadInfo(HttpServletRequest request, HttpServletResponse response,PrintWriter printWriter){
-        Map<String,Object> result_map = new HashMap<String,Object>();
-        try {
-        	List<Employee> employeeList = employeeService.findEmployee();
-        	for (int i=0;i<employeeList.size();i++){
-        		
-        	}
-        } catch (Exception e) {
-            result_map.put("success", false);
-            result_map.put("msg", "系统错误,请与管理员联系");
-            e.printStackTrace();
-        }finally{
-            printWriter.print(JsonUtil.jsonObject(result_map, null, null));
-            printWriter.flush();
-            printWriter.close();
-        }
-    }
     
-    
-    @RequestMapping("/addEmployee")
-    public void addEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter, Employee employee){
-        Map<String,Object> result_map = new HashMap<String,Object>();
-        try {
-        	boolean bon = employeeService.saveEmployee(employee);
-        	if (bon){
-        		result_map.put("success", true);
-                result_map.put("msg", "添加成功");
-        	}else {
-        		result_map.put("success", false);
-                result_map.put("msg", "添加失败");
-        	}
-        } catch (Exception e) {
-            result_map.put("success", false);
-            result_map.put("msg", "系统错误,请与管理员联系");
-            e.printStackTrace();
-        }finally{
-            printWriter.print(JsonUtil.jsonObject(result_map, null, null));
-            printWriter.flush();
-            printWriter.close();
-        }
-    }
     @RequestMapping("/toemployee")
-    public ModelAndView loginSuccess(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView toemployee(HttpServletRequest request, HttpServletResponse response){
+    	WriteToFileExample();
         return new ModelAndView("employee");
     }
     
-    //首页
-    @RequestMapping("/tosetting")
-    public ModelAndView homepage(HttpServletRequest request, HttpServletResponse response){
-    	return new ModelAndView("setting");
+    public JSONArray loadInfo(){
+    	JSONArray jsonArray = new JSONArray();
+        try {
+            List<Employee> employeeList = employeeService.findAllEmployeeList();
+            for (int i=0;i<employeeList.size();i++){
+            	JSONObject jsonObject = new JSONObject();
+            	Employee employee = new Employee();
+            	employee = employeeList.get(i);
+            	jsonObject.put("number", employee.getNumber());
+            	jsonObject.put("name", employee.getName());
+            	jsonObject.put("gender", employee.getGender());
+            	jsonObject.put("job", employee.getJob());
+            	jsonObject.put("entryTime", new SimpleDateFormat("yyyy-MM-dd").format(employee.getEntryTime()));
+            	jsonObject.put("status", employee.getStatus());
+            	jsonObject.put("remarks", employee.getRemarks());
+            	jsonObject.put("edit", "<a herf='javascript(0)' onclick='editEmployee()'>编辑</>");
+            	jsonArray.add(jsonObject);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(jsonArray);
+        return jsonArray;
+    }
+    
+    
+    //获取当前项目的绝对路径
+    public String getPorjectPath(){
+        String nowpath; //当前tomcat的bin目录的路径 如 D:javasoftwareapache-tomcat-6.0.14bin
+        String tempdir;
+        nowpath=System.getProperty("user.dir");
+        tempdir=nowpath.replace("bin","webapps"); //把bin 文件夹变到 webapps文件里面 
+        tempdir+="\\management";  //拼成D:javasoftwareapache-tomcat-6.0.14webappssz_pro
+        return tempdir; 
+    }
+    
+    /**
+     * 写文件的方法
+     */
+    public void WriteToFileExample() {
+        
+        try {
+            JSONArray content = loadInfo();
+            File file = new File(getPorjectPath() + "/content/index/tables/data1.json");
+
+            // if file doesnt exists, then create it
+            if (!file.exists()) {
+             file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(content+"");
+            bw.close();
+
+            System.out.println("Done");
+
+           } catch (IOException e) {
+            e.printStackTrace();
+           }
+        }
+    
+    @RequestMapping("/addEmployee")
+    public void addEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
+        Map<String,Object> result_map = new HashMap<String,Object>();
+        String number = request.getParameter("number");
+        String name = request.getParameter("name");
+        String gender = request.getParameter("gender");
+        String job = request.getParameter("job");
+        String entryTime = request.getParameter("entryTime");
+        String status = request.getParameter("status");
+        String remarks = request.getParameter("remarks");
+        
+        Employee employee = new Employee();
+        
+        if (StringUtils.isNotBlank(number)){
+            employee.setNumber(number);
+        }
+        if (StringUtils.isNotBlank(name)){
+            employee.setName(name);
+        }
+        if (StringUtils.isNotBlank(gender)){
+                employee.setGender(gender);
+        }
+        if (StringUtils.isNotBlank(job)){
+            employee.setJob(job);
+        }
+        if (StringUtils.isNotBlank(status)){
+            employee.setStatus(status);
+        }
+        if (StringUtils.isNotBlank(entryTime)){
+            try {
+                employee.setEntryTime(new SimpleDateFormat("yyyy-MM-dd").parse(entryTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isNotBlank(remarks)){
+            employee.setRemarks(remarks);
+        }
+        try {
+            boolean bon = employeeService.saveupdateEmployee(employee);
+            if (bon){
+                result_map.put("success", true);
+                result_map.put("msg", "添加成功");
+            }else {
+                result_map.put("success", false);
+                result_map.put("msg", "添加失败");
+            }
+        } catch (Exception e) {
+            result_map.put("success", false);
+            result_map.put("msg", "系统错误,请与管理员联系");
+            e.printStackTrace();
+        }finally{
+            printWriter.print(JsonUtil.jsonObject(result_map, null, null));
+            printWriter.flush();
+            printWriter.close();
+        }
     }
     
 }

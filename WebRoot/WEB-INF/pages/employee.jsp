@@ -23,19 +23,18 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">员工信息表<button type="button" onclick="addEmployee()">添加</button></div>
+					<div class="panel-heading">员工信息表<button type="button" onclick="addEmployeeForm()">添加</button></div>
 					<div class="panel-body">
 						<table data-toggle="table" data-url="content/index/tables/data1.json"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <!-- <th data-field="state" data-checkbox="true" >员工编号</th> -->
-						        <th data-field="id" data-sortable="true">员工编号</th>
+						        <th data-field="number" data-sortable="true">员工编号</th>
 						        <th data-field="name" data-sortable="true">员工姓名</th>
-						        <th data-field="name"  data-sortable="true">员工性别</th>
-						        <th data-field="price" data-sortable="true">员工职务</th>
-						        <th data-field="name"  data-sortable="true">入职时间</th>
-						        <th data-field="name"  data-sortable="true">是否在职</th>
-						        <th data-field="name"  data-sortable="true">备注</th>
+						        <th data-field="gender"  data-sortable="true">员工性别</th>
+						        <th data-field="job" data-sortable="true">员工职务</th>
+						        <th data-field="entryTime"  data-sortable="true">入职时间</th>
+						        <th data-field="status"  data-sortable="true">工作状态</th>
+						        <th data-field="remarks"  data-sortable="true">备注</th>
 						        <th data-field="edit"  data-sortable="false">编辑</th>
 						    </tr>
 						    </thead>
@@ -55,8 +54,11 @@
 	<script src="content/index/js/easypiechart-data.js"></script>
 	<script src="content/index/js/bootstrap-datepicker.js"></script>
 	<script src="content/index/js/bootstrap-table.js"></script>
+	<script src="content/plugin/layer/layer.js" type="text/javascript"></script>
 	<script src="content/js/employee.js"></script>
 	<script>
+	
+
 		!function ($) {
 			$(document).on("click","ul.nav li.parent > a > span.icon", function(){		  
 				$(this).find('em:first').toggleClass("glyphicon-minus");	  
