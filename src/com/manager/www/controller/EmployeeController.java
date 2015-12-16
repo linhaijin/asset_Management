@@ -2,8 +2,11 @@ package com.manager.www.controller;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,7 +71,6 @@ public class EmployeeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(jsonArray);
         return jsonArray;
     }
     
@@ -97,8 +99,8 @@ public class EmployeeController {
              file.createNewFile();
             }
 
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
+            OutputStream out=new FileOutputStream(file);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out,"utf-8"));
             bw.write(content+"");
             bw.close();
 
