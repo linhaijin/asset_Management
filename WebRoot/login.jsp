@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </p> -->
             </div>
         </div>
-        <div align="center">版权所有123</div>
+        <div align="center">版权所有</div>
 
         <!-- Javascript -->
         <script src="content/assets/js/jquery-1.8.2.min.js"></script>
