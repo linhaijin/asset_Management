@@ -46,7 +46,10 @@ public class EmployeeController {
     
     @RequestMapping("/toemployee")
     public ModelAndView toemployee(HttpServletRequest request, HttpServletResponse response){
-    	WriteToFileExample();
+    	String realPath = request.getSession().getServletContext()
+                .getRealPath("/");
+    	System.out.println(realPath);
+    	WriteToFileExample(realPath);
         return new ModelAndView("employee");
     }
     
@@ -75,24 +78,15 @@ public class EmployeeController {
     }
     
     
-    //获取当前项目的绝对路径
-    public String getPorjectPath(){
-        String nowpath; //当前tomcat的bin目录的路径 如 D:javasoftwareapache-tomcat-6.0.14bin
-        String tempdir;
-        nowpath=System.getProperty("user.dir");
-        tempdir=nowpath.replace("bin","webapps"); //把bin 文件夹变到 webapps文件里面 
-        tempdir+="\\management";  //拼成D:javasoftwareapache-tomcat-6.0.14webappssz_pro
-        return tempdir; 
-    }
     
     /**
      * 写文件的方法
      */
-    public void WriteToFileExample() {
+    public void WriteToFileExample(String realPath) {
         
         try {
             JSONArray content = loadInfo();
-            File file = new File(getPorjectPath() + "/content/index/tables/data1.json");
+            File file = new File(realPath + "/content/index/tables/data1.json");
 
             // if file doesnt exists, then create it
             if (!file.exists()) {
