@@ -32,7 +32,7 @@ public class EmployeeServiceImpl  extends BaseDao<Employee> implements IEmployee
   //save
     @Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
     public boolean saveupdateEmployee(Employee entity) {
-        return this.saveEntity(entity);
+        return this.saveOrUpdate(entity);
     }
     //delete
     @Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)

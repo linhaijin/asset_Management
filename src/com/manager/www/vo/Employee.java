@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,7 +16,7 @@ public class Employee implements java.io.Serializable {
 
 	// Fields
 
-	private Integer id;          //ID
+	private String id;          //ID
 	private String number;       //员工编号
 	private String name;         //姓名
 	private String status;       //状态
@@ -34,7 +32,8 @@ public class Employee implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Employee(String name, String number, String job, String remarks, String status, String gender, Date entryTime) {
+	public Employee(String id, String name, String number, String job, String remarks, String status, String gender, Date entryTime) {
+		this.id = id;
 		this.name = name;
 		this.job = job;
 		this.number = number;
@@ -46,13 +45,12 @@ public class Employee implements java.io.Serializable {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

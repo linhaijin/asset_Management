@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -53,6 +55,10 @@ public class EmployeeController {
         return new ModelAndView("employee");
     }
     
+    /**
+     * 从数据库查询信息供写文件使用
+     * @return JSONArray
+     */
     public JSONArray loadInfo(){
     	JSONArray jsonArray = new JSONArray();
         try {
@@ -68,7 +74,7 @@ public class EmployeeController {
             	jsonObject.put("entryTime", new SimpleDateFormat("yyyy-MM-dd").format(employee.getEntryTime()));
             	jsonObject.put("status", employee.getStatus());
             	jsonObject.put("remarks", employee.getRemarks());
-            	jsonObject.put("edit", "<a herf='javascript(0)' onclick='editEmployee()'>编辑</>");
+            	jsonObject.put("edit", "<a href='javascript:void(0)' onclick='editEmployee("+employee.getId()+")'>编辑</>/<a href='javascript:void(0)' onclick='deleteEmployee("+employee.getId()+")'>删除</>");
             	jsonArray.add(jsonObject);
             }
         } catch (Exception e) {
@@ -105,9 +111,37 @@ public class EmployeeController {
            }
         }
     
+    /**
+     * 查询员工信息
+     * @param request
+     * @param response
+     * @param printWriter
+     */
+    @RequestMapping("/searchEmployee")
+    public void searchEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
+    	Map<String,Object> result_map = new HashMap<String,Object>();
+    	String id = request.getParameter("id");
+        Employee employee = new Employee();
+        employee = employeeService.findById(id);
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(employee.getEntryTime());
+        result_map.put("msg", employee);
+        result_map.put("date", date);
+        printWriter.print(JsonUtil.jsonObject(result_map, null, null));
+        printWriter.flush();
+        printWriter.close();
+    }
+    
+    
+    /**
+     * 添加新员工方法
+     * @param request
+     * @param response
+     * @param printWriter
+     */
     @RequestMapping("/addEmployee")
     public void addEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
         Map<String,Object> result_map = new HashMap<String,Object>();
+        String idString = request.getParameter("id");
         String number = request.getParameter("number");
         String name = request.getParameter("name");
         String gender = request.getParameter("gender");
@@ -118,8 +152,13 @@ public class EmployeeController {
         
         Employee employee = new Employee();
         
+        if (StringUtils.isNotBlank(idString)){
+            employee.setId(idString);
+        }else{
+        	employee.setId(UUID.randomUUID()+"");
+        }
         if (StringUtils.isNotBlank(number)){
-            employee.setNumber(number);
+        	employee.setNumber(number);
         }
         if (StringUtils.isNotBlank(name)){
             employee.setName(name);
@@ -162,5 +201,21 @@ public class EmployeeController {
             printWriter.close();
         }
     }
-    
+
+    /**
+     * 删除员工信息
+     * @param request
+     * @param response
+     * @param printWriter
+     */
+    @RequestMapping("/deleteEmployee")
+    public void deleteEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
+    	Map<String,Object> result_map = new HashMap<String,Object>();
+        String id = request.getParameter("id");
+        Boolean bon = employeeService.deleteEntityById(id);
+        result_map.put("success", bon);
+        printWriter.print(JsonUtil.jsonObject(result_map, null, null));
+        printWriter.flush();
+        printWriter.close();
+    }
 }
