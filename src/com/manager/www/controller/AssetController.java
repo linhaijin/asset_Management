@@ -3,14 +3,12 @@ package com.manager.www.controller;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,35 +22,46 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.manager.www.commons.util.JsonUtil;
-import com.manager.www.service.IEmployeeService;
-import com.manager.www.vo.Employee;
+import com.manager.www.service.IAssetService;
+import com.manager.www.service.ICategoryService;
+import com.manager.www.vo.Asset;
+import com.manager.www.vo.Category;
 
 /**
  * @author djx
- * @date 2015-11-19
+ * @date 2015-12-31
  * @description
  */
 
 @Controller
-@RequestMapping(value="employeeController")
-public class EmployeeController {
+@RequestMapping(value="assetController")
+public class AssetController {
     @Resource
-    IEmployeeService employeeService;
+    IAssetService assetService;
+    @Resource
+    private ICategoryService categoryService;
     
-    
-    @RequestMapping("/toemployee")
-    public ModelAndView toemployee(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping("/toasset")
+    public ModelAndView toasset(HttpServletRequest request, HttpServletResponse response){
     	String realPath = request.getSession().getServletContext()
                 .getRealPath("/");
     	System.out.println(realPath);
     	WriteToFileExample(realPath);
-        return new ModelAndView("employee");
+    	List<Category> category_list = categoryService.findAllCategoryList();
+        request.setAttribute("category", category_list);
+        return new ModelAndView("asset");
+    }
+    
+    @RequestMapping("/tosaveOrupdateAsset")
+    public ModelAndView tosaveOrupdateAsset(HttpServletRequest request, HttpServletResponse response){
+    	List<Category> category_list = categoryService.findAllCategoryList();
+        request.setAttribute("category", category_list);
+        return new ModelAndView("saveOrupdateAsset");
     }
     
     /**
@@ -62,19 +71,19 @@ public class EmployeeController {
     public JSONArray loadInfo(){
     	JSONArray jsonArray = new JSONArray();
         try {
-            List<Employee> employeeList = employeeService.findAllEmployeeList();
-            for (int i=0;i<employeeList.size();i++){
+            List<Asset> assetList = assetService.findAllAssetList();
+            for (int i=0;i<assetList.size();i++){
             	JSONObject jsonObject = new JSONObject();
-            	Employee employee = new Employee();
-            	employee = employeeList.get(i);
-            	jsonObject.put("number", employee.getNumber());
-            	jsonObject.put("name", employee.getName());
-            	jsonObject.put("gender", employee.getGender());
-            	jsonObject.put("job", employee.getJob());
-            	jsonObject.put("entryTime", new SimpleDateFormat("yyyy-MM-dd").format(employee.getEntryTime()));
-            	jsonObject.put("status", employee.getStatus());
-            	jsonObject.put("remarks", employee.getRemarks());
-            	jsonObject.put("edit", "<a href='javascript:void(0)' onclick='editEmployee("+employee.getId()+")'>编辑</>/<a href='javascript:void(0)' onclick='deleteEmployee("+employee.getId()+")'>删除</>");
+            	Asset asset = new Asset();
+            	asset = assetList.get(i);
+            	jsonObject.put("number", asset.getNumber());
+            	jsonObject.put("name", asset.getName());
+            	jsonObject.put("uses", asset.getUses());
+            	jsonObject.put("category", asset.getCategory());
+            	jsonObject.put("entryTime", new SimpleDateFormat("yyyy-MM-dd").format(asset.getEntryTime()));
+            	jsonObject.put("status", asset.getStatus());
+            	jsonObject.put("remarks", asset.getRemarks());
+            	jsonObject.put("edit", "<a href='javascript:void(0)' onclick='editAsset("+asset.getId()+")'>编辑</>/<a href='javascript:void(0)' onclick='deleteAsset("+asset.getId()+")'>删除</>");
             	jsonArray.add(jsonObject);
             }
         } catch (Exception e) {
@@ -92,7 +101,7 @@ public class EmployeeController {
         
         try {
             JSONArray content = loadInfo();
-            File file = new File(realPath + "/content/index/tables/dataEmployee.json");
+            File file = new File(realPath + "/content/index/tables/dataAsset.json");
 
             // if file doesnt exists, then create it
             if (!file.exists()) {
@@ -115,14 +124,14 @@ public class EmployeeController {
      * @param response
      * @param printWriter
      */
-    @RequestMapping("/searchEmployee")
-    public void searchEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
+    @RequestMapping("/searchAsset")
+    public void searchAsset(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
     	Map<String,Object> result_map = new HashMap<String,Object>();
     	String id = request.getParameter("id");
-        Employee employee = new Employee();
-        employee = employeeService.findById(id);
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(employee.getEntryTime());
-        result_map.put("msg", employee);
+        Asset asset = new Asset();
+        asset = assetService.findById(id);
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(asset.getEntryTime());
+        result_map.put("msg", asset);
         result_map.put("date", date);
         printWriter.print(JsonUtil.jsonObject(result_map, null, null));
         printWriter.flush();
@@ -136,52 +145,52 @@ public class EmployeeController {
      * @param response
      * @param printWriter
      */
-    @RequestMapping("/addEmployee")
-    public void addEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
+    @RequestMapping("/addAsset")
+    public void addAsset(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
         Map<String,Object> result_map = new HashMap<String,Object>();
         String idString = request.getParameter("id");
         String number = request.getParameter("number");
         String name = request.getParameter("name");
-        String gender = request.getParameter("gender");
-        String job = request.getParameter("job");
+        String uses = request.getParameter("uses");
+        String category = request.getParameter("category");
         String entryTime = request.getParameter("entryTime");
         String status = request.getParameter("status");
         String remarks = request.getParameter("remarks");
         
-        Employee employee = new Employee();
+        Asset asset = new Asset();
         
         if (StringUtils.isNotBlank(idString)){
-            employee.setId(idString);
+            asset.setId(idString);
         }else{
-        	employee.setId(UUID.randomUUID()+"");
+        	asset.setId(UUID.randomUUID()+"");
         }
         if (StringUtils.isNotBlank(number)){
-        	employee.setNumber(number);
+        	asset.setNumber(number);
         }
         if (StringUtils.isNotBlank(name)){
-            employee.setName(name);
+            asset.setName(name);
         }
-        if (StringUtils.isNotBlank(gender)){
-                employee.setGender(gender);
+        if (StringUtils.isNotBlank(uses)){
+                asset.setUses(uses);
         }
-        if (StringUtils.isNotBlank(job)){
-            employee.setJob(job);
+        if (StringUtils.isNotBlank(category)){
+            asset.setCategory(category);
         }
         if (StringUtils.isNotBlank(status)){
-            employee.setStatus(status);
+            asset.setStatus(status);
         }
         if (StringUtils.isNotBlank(entryTime)){
             try {
-                employee.setEntryTime(new SimpleDateFormat("yyyy-MM-dd").parse(entryTime));
+                asset.setEntryTime(new SimpleDateFormat("yyyy-MM-dd").parse(entryTime));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
         if (StringUtils.isNotBlank(remarks)){
-            employee.setRemarks(remarks);
+            asset.setRemarks(remarks);
         }
         try {
-            boolean bon = employeeService.saveupdateEmployee(employee);
+            boolean bon = assetService.saveupdateAsset(asset);
             if (bon){
                 result_map.put("success", true);
                 result_map.put("msg", "添加成功");
@@ -206,11 +215,11 @@ public class EmployeeController {
      * @param response
      * @param printWriter
      */
-    @RequestMapping("/deleteEmployee")
-    public void deleteEmployee(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
+    @RequestMapping("/deleteAsset")
+    public void deleteAsset(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
     	Map<String,Object> result_map = new HashMap<String,Object>();
         String id = request.getParameter("id");
-        Boolean bon = employeeService.deleteEntityById(id);
+        Boolean bon = assetService.deleteEntityById(id);
         result_map.put("success", bon);
         printWriter.print(JsonUtil.jsonObject(result_map, null, null));
         printWriter.flush();

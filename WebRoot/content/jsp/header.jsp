@@ -71,33 +71,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 		<ul id="title_name"class="nav menu">
 			<li ><a href="loginController/loginSuccess"><span class="glyphicon glyphicon-dashboard"></span> 主页</a></li>
-			<li class="parent ">
-				<a href="#">
-					<span class="glyphicon glyphicon-list"></span> 固定资产信息 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="#">
-							<span class="glyphicon glyphicon-share-alt"></span> 固定资产类别
-						</a>
-					</li>
-					<li>
-						<a class="" href="#">
-							<span class="glyphicon glyphicon-share-alt"></span> 固定资产信息
-						</a>
-					</li>
-				</ul>
-			</li>
+			<li><a href="assetController/toasset"><span class="glyphicon glyphicon-list-alt"></span> 固定资产信息</a></li>
 			<li><a href="employeeController/toemployee"><span class="glyphicon glyphicon-th"></span> 人员信息</a></li>
 			<li><a href="charts.html"><span class="glyphicon glyphicon-stats"></span> 资产的领用</a></li>
 			<li><a href="tables.html"><span class="glyphicon glyphicon-list-alt"></span> 资产的归还</a></li>
 			<li class="parent ">
-				<a href="#">
-					<span class="glyphicon glyphicon-list"></span> 资产信息浏览 <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+				<a href="javascript:;">
+					<span class="glyphicon glyphicon-list"></span> 资产信息维护 <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
 				</a>
 				<ul class="children collapse" id="sub-item-2">
 					<li>
-						<a class="" href="#">
+						<a class="" href="categoryController/tocategory">
 							<span class="glyphicon glyphicon-share-alt"></span> 资产类别
 						</a>
 					</li>

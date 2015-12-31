@@ -9,13 +9,13 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="loginController/loginSuccess"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">人员信息</li>
+				<li class="active">固定资产信息</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">人员信息</h1>
+				<h1 class="page-header">固定资产信息</h1>
 			</div>
 		</div><!--/.row-->
 				
@@ -23,17 +23,17 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">员工信息表<button style="float:right;" type="button" class="btn btn-info" onclick="addEmployeeForm()">添加</button></div>
+					<div class="panel-heading">资产信息表<button style="float:right;" type="button" class="btn btn-info" onclick="addAssetForm()">添加</button></div>
 					<div class="panel-body">
-						<table class="table-striped" data-toggle="table" data-url="content/index/tables/dataEmployee.json"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						<table class="table-striped" data-toggle="table" data-url="content/index/tables/data1.json"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <th data-field="number" data-sortable="true">员工编号</th>
-						        <th data-field="name" data-sortable="true">员工姓名</th>
-						        <th data-field="gender"  data-sortable="true">员工性别</th>
-						        <th data-field="job" data-sortable="true">员工职务</th>
-						        <th data-field="entryTime"  data-sortable="true">入职时间</th>
-						        <th data-field="status"  data-sortable="true">工作状态</th>
+						        <th data-field="number" data-sortable="true">资产编号</th>
+						        <th data-field="name" data-sortable="true">资产名称</th>
+						        <th data-field="uses"  data-sortable="true">资产用途</th>
+						        <th data-field="category" data-sortable="true">资产类别</th>
+						        <th data-field="entryTime"  data-sortable="true">购买时间</th>
+						        <th data-field="status"  data-sortable="true">使用状态</th>
 						        <th data-field="remarks"  data-sortable="true">备注</th>
 						        <th data-field="edit"  data-sortable="false">编辑</th>
 						    </tr>
@@ -43,7 +43,6 @@
 				</div>
 			</div>
 		</div><!--/.row-->	
-		
 	</div><!--/.main-->
 
 	<script src="content/index/js/jquery-1.11.1.min.js"></script>
@@ -55,7 +54,7 @@
 	<script src="content/index/js/bootstrap-datepicker.js"></script>
 	<script src="content/index/js/bootstrap-table.js"></script>
 	<script src="content/plugin/layer/layer.js" type="text/javascript"></script>
-	<script src="content/js/employee.js"></script>
+	<script src="content/js/asset.js"></script>
 	<script>
 	
 
@@ -72,6 +71,8 @@
 		$(window).on('resize', function () {
 		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
 		})
+		
+		
 	</script>	
 </body>
 

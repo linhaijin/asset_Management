@@ -292,6 +292,7 @@
 	<script src="content/js/index.js"></script>
 	<script>
 		$('#calendar').datepicker({
+			todayHighlight: 1
 		});
 
 		!function ($) {

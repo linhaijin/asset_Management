@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,14 +12,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "asset", catalog = "assetmanagement")
-public class Assets implements java.io.Serializable {
+public class Asset implements java.io.Serializable {
 
 	// Fields
 
-	private Integer id;          //ID
+	private String id;           //ID
 	private String number;       //资产编号
 	private String name;         //资产名称
-	private Integer status = 0;  //状态,0空闲1在用
+	private String status;       //状态,0空闲1在用
 	private String uses;         //用途
 	private Date entryTime;      //购买时间
 	private String category;     //类别
@@ -30,11 +28,12 @@ public class Assets implements java.io.Serializable {
 	// Constructors
 
 	/** default constructor */
-	public Assets() {
+	public Asset() {
 	}
 
 	/** full constructor */
-	public Assets(String name, String number, String uses, String remarks, Integer status, String category, Date entryTime) {
+	public Asset(String id, String name, String number, String uses, String remarks, String status, String category, Date entryTime) {
+		this.id = id;
 		this.name = name;
 		this.uses = uses;
 		this.number = number;
@@ -46,13 +45,12 @@ public class Assets implements java.io.Serializable {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -93,11 +91,11 @@ public class Assets implements java.io.Serializable {
 	}
 
 	@Column(name = "status")
-	public Integer getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
