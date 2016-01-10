@@ -57,9 +57,20 @@ public class AssetController {
         return new ModelAndView("asset");
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/tosaveOrupdateAsset")
     public ModelAndView tosaveOrupdateAsset(HttpServletRequest request, HttpServletResponse response){
     	List<Category> category_list = categoryService.findAllCategoryList();
+    	String id = request.getParameter("id");
+    	if (StringUtils.isNotBlank(id)){
+    		Map<String,Object> map = searchAsset(id);
+    		request.setAttribute("map", map);
+    	}
         request.setAttribute("category", category_list);
         return new ModelAndView("saveOrupdateAsset");
     }
@@ -83,7 +94,7 @@ public class AssetController {
             	jsonObject.put("entryTime", new SimpleDateFormat("yyyy-MM-dd").format(asset.getEntryTime()));
             	jsonObject.put("status", asset.getStatus());
             	jsonObject.put("remarks", asset.getRemarks());
-            	jsonObject.put("edit", "<a href='javascript:void(0)' onclick='editAsset("+asset.getId()+")'>编辑</>/<a href='javascript:void(0)' onclick='deleteAsset("+asset.getId()+")'>删除</>");
+            	jsonObject.put("edit", "<a href='javascript:void(0)' onclick='editAsset("+'"'+asset.getId()+'"'+")'>编辑</>/<a href='javascript:void(0)' onclick='deleteAsset("+'"'+asset.getId()+'"'+")'>删除</>");
             	jsonArray.add(jsonObject);
             }
         } catch (Exception e) {
@@ -119,28 +130,24 @@ public class AssetController {
         }
     
     /**
-     * 查询员工信息
+     * 查询资产信息
      * @param request
      * @param response
      * @param printWriter
      */
-    @RequestMapping("/searchAsset")
-    public void searchAsset(HttpServletRequest request, HttpServletResponse response, PrintWriter printWriter){
+    public Map<String,Object> searchAsset(String id){
     	Map<String,Object> result_map = new HashMap<String,Object>();
-    	String id = request.getParameter("id");
         Asset asset = new Asset();
         asset = assetService.findById(id);
         String date = new SimpleDateFormat("yyyy-MM-dd").format(asset.getEntryTime());
         result_map.put("msg", asset);
         result_map.put("date", date);
-        printWriter.print(JsonUtil.jsonObject(result_map, null, null));
-        printWriter.flush();
-        printWriter.close();
+        return result_map;
     }
     
     
     /**
-     * 添加新员工方法
+     * 添加新资产方法
      * @param request
      * @param response
      * @param printWriter
@@ -210,7 +217,7 @@ public class AssetController {
     }
 
     /**
-     * 删除员工信息
+     * 删除资产信息
      * @param request
      * @param response
      * @param printWriter

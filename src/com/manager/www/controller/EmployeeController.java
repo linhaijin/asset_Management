@@ -3,14 +3,12 @@ package com.manager.www.controller;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +22,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -74,7 +71,7 @@ public class EmployeeController {
             	jsonObject.put("entryTime", new SimpleDateFormat("yyyy-MM-dd").format(employee.getEntryTime()));
             	jsonObject.put("status", employee.getStatus());
             	jsonObject.put("remarks", employee.getRemarks());
-            	jsonObject.put("edit", "<a href='javascript:void(0)' onclick='editEmployee("+employee.getId()+")'>编辑</>/<a href='javascript:void(0)' onclick='deleteEmployee("+employee.getId()+")'>删除</>");
+            	jsonObject.put("edit", "<a href='javascript:void(0)' onclick='editEmployee("+'"'+employee.getId()+'"'+")'>编辑</>/<a href='javascript:void(0)' onclick='deleteEmployee("+'"'+employee.getId()+'"'+")'>删除</>");
             	jsonArray.add(jsonObject);
             }
         } catch (Exception e) {

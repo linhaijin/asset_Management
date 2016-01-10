@@ -19,11 +19,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <table>
   <tr>
     <th>资产编号</th>
-    <td><input type="text" id="number"></td>
+    <td><input type="text" id="number" value="${map.msg.number }"></td>
   </tr>
   <tr>
     <th>资产名称：</th>
-    <td><input type="text" id="name"></td>
+    <td><input type="text" id="name" value="${map.msg.name }"></td>
   </tr>
   <tr>
     <th>资产类别：</th>
@@ -36,39 +36,59 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </tr>
   <tr>
     <th>资产用途：</th>
-    <td><input type="text" id="uses"></td>
+    <td><input type="text" id="uses" value="${map.msg.uses }"></td>
   </tr>
   <tr>
     <th>购买时间：</th>
-    <td><input type="date" id="entryTime"></td>
+    <td><input type="date" id="entryTime" value="${map.date }"></td>
   </tr>
   <tr>
     <th>使用状态：</th>
-    <td>Row 1: Col 1</td>
+    <td><input type="radio" id="status" name="status" value="在用"/>在用<input type="radio" name="status" value="空闲"/>空闲</td>
   </tr>
   <tr>
-    <th>Column 2 Heading</th>
-    <td>Row 1: Col 1</td>
+    <th>备 &nbsp;&nbsp;&nbsp;&nbsp;注：</th>
+    <td><input type="text" id="remarks" value="${map.msg.remarks }"></td>
   </tr>
+  <tr></tr>
   <tr>
-    <th>Column 2 Heading</th>
-    <td>Row 1: Col 1</td>
+    <th></th>
+    <td><button style="float:right;" type="button" class="btn btn-info" onclick="addAsset()">添加</button></td>
   </tr>
 </table>
 
-	    		资产编号：<input type="text" id="number"><br><br>
-	    		资产名称：<input type="text" id="name"><br><br>
-	    		资产类别：<select id="category" name="">
-		    					<c:forEach var="item" items="${category}">
-		    					<option value="${item.value}">${item.value}
-		    					</option>
-		    					</c:forEach>
-	    				   </select><br><br>
-	    		资产用途：<input type="text" id="uses"><br><br>
-	    		购买时间：<input type="date" id="entryTime"><br><br>
-	    		使用状态：<input type="radio" id="status" name="status" value="在用"/>在用<input type="radio" name="status" value="空闲"/>空闲<br><br>
-	    	 	备 &nbsp;&nbsp;&nbsp;&nbsp;注：<input type="text" id="remarks"><br>
-	    		<br><br>
-	    		<button style="float:right;" type="button" class="btn btn-info" onclick="addAssetForm()">添加</button>
 </body>
+<script src="content/index/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+
+	function addAsset(){
+		$.ajax({
+	    		type: "post",
+	            url: "assetController/addAsset",
+	            async:false,
+	            data: {
+	            	"number" : $("#number").val(),
+	            	"name" : $("#name").val(),
+	            	"uses" : $("#uses").val(),
+	            	"category" : $("#category").val(),
+	            	"entryTime" : $("#entryTime").val(),
+	            	"status" : $("input[name='status']:checked").val(),
+	            	"remarks" : $("#remarks").val()
+	            },
+	            dataType: "json",
+	            success: function(data){
+	            	if(data['success']){
+	            		layer.msg(data['msg'], {icon: 1, time: 1000}, function () {
+	                        window.location.href = "assetController/toasset";  //加载资产信息页面
+	                    });
+	            	}else{
+	            		layer.msg(data['msg'], {icon: 2, time:1000});
+	            	}
+	            },
+	            error: function(data){
+	            	layer.msg(data['msg'], {icon: 2, time: 1000});
+	            }
+	    	});
+	}
+</script>
 </html>

@@ -5,7 +5,16 @@ $(function(){
 
 
 function editAsset(id){
-	$.ajax({
+	layer.open({
+	    type: 2,
+	    title: '修改固定资产',
+	    shadeClose: true,
+	    shade: 0.8,
+	    area: ['380px', '60%'],
+	    content: 'assetController/tosaveOrupdateAsset?id='+id //iframe的url
+	});
+	
+	/*$.ajax({
 		type: "post",
         url: "assetController/searchAsset",
         async:false,
@@ -16,8 +25,6 @@ function editAsset(id){
         success: function(data){
         	var asset = eval(data['msg']);
         	var date = data['date'];
-        	$("input:radio[value="+asset['gender']+"]").attr('checked','true');
-        	$("input:radio[value="+asset['status']+"]").attr('checked','true');
         	var index = layer.open({
         		area: ['400px', '500px'],
         		title :'修改资产',
@@ -26,7 +33,7 @@ function editAsset(id){
         	    		"资产名称：<input type='text' id='name' value="+"'"+asset['name']+"'"+"><br>" +
         	    		"资产类别：<select id='category' name=''><c:forEach var='item' items='${category_list}'><c:choose><c:when test='${category==item.value}'><option value='${item.value}' selected='true'>${item.value}</option></c:when><c:otherwise><option value='${item.value}'>${item.value}</option></c:otherwise></c:choose></c:forEach></select><br>" +
         	    		"资产用途：<input type='text' id='job' value="+"'"+asset['uses']+"'"+"><br>" +
-        	    		"入职时间：<input type='date' id='entryTime' value="+"'"+date+"'"+"><br>" +
+        	    		"购买时间：<input type='date' id='entryTime' value="+"'"+date+"'"+"><br>" +
         	    		"使用状态：<input type='radio' id='status' name='status' value='在用'/>在用<input type='radio' name='status' value='空闲'/>空闲<br>" +
         	    		"备 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：<input type='text' id='remarks' value="+"'"+asset['remarks']+"'"+"><br>" +
         	    		"</form>",
@@ -69,7 +76,7 @@ function editAsset(id){
         error: function(data){
         	layer.msg('查询出错，请稍后再试', {icon: 2, time: 1000});
         }
-	});
+	});*/
 }
 
 function deleteAsset(id){

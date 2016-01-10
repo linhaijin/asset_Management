@@ -25,7 +25,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">资产信息表<button style="float:right;" type="button" class="btn btn-info" onclick="addAssetForm()">添加</button></div>
 					<div class="panel-body">
-						<table class="table-striped" data-toggle="table" data-url="content/index/tables/data1.json"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						<table class="table-striped" data-toggle="table" data-url="content/index/tables/dataAsset.json"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
 						        <th data-field="number" data-sortable="true">资产编号</th>
